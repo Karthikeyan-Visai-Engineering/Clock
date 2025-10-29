@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visai Engineering — Office Clocks</title>
+<style>
+  :root {
+    --navy1: #1e325c;
+    --navy2: #294a84;
+    --accent: #ead57b;
+    --text: #ffffff;
+  }
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Poppins", Arial, sans-serif;
+    color: var(--text);
+    background: linear-gradient(120deg, var(--navy1), var(--navy2));
+    background-size: 200% 200%;
+    animation: gradientMove 12s ease-in-out infinite;
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 1s ease-in-out;
+    text-align: center;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .slide.prev {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  h1 {
+    font-size: 3vmin;
+    margin: 0 0 2vmin;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+  .city {
+    font-size: 2.5vmin;
+    margin-bottom: 1vmin;
+    font-weight: 600;
+  }
+  .clock {
+    font-size: 7vmin;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+  }
+  .date {
+    font-size: 2vmin;
+    margin-top: 1vmin;
+    opacity: 0.9;
+  }
+  footer {
+    position: absolute;
+    bottom: 2vmin;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8vmin;
+    opacity: 0.8;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+  <div class="slide active" data-tz="America/Toronto" data-name="Toronto — Canada">
+    <h1>Visai Engineering</h1>
+    <div class="city">🇨🇦 Toronto — Canada</div>
+    <div class="clock" id="clock0">--:--:--</div>
+    <div class="date" id="date0">Loading date...</div>
+  </div>
+
+  <div class="slide" data-tz="America/New_York" data-name="New York — Eastern US">
+    <h1>Visai Engineering</h1>
+    <div class="city">🇺🇸 New York — Eastern US</div>
+    <div class="clock" id="clock1">--:--:--</div>
+    <div class="date" id="date1">Loading date...</div>
+  </div>
+
+  <div class="slide" data-tz="America/Chicago" data-name="Texas — South US">
+    <h1>Visai Engineering</h1>
+    <div class="city">🇺🇸 Texas — South US</div>
+    <div class="clock" id="clock2">--:--:--</div>
+    <div class="date" id="date2">Loading date...</div>
+  </div>
+
+  <footer>Auto-updating every second • Slides every 10 seconds</footer>
+
+<script>
+  const SLIDE_DURATION = 5000;
+  const slides = document.querySelectorAll(".slide");
+  let current = 0;
+
+  function updateClocks() {
+    slides.forEach((slide, i) => {
+      const tz = slide.getAttribute("data-tz");
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString("en-US", {
+        timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+      });
+      const dateStr = now.toLocaleDateString("en-US", {
+        timeZone: tz, weekday: "short", month: "short", day: "numeric", year: "numeric"
+      });
+      document.getElementById("clock" + i).textContent = timeStr;
+      document.getElementById("date" + i).textContent = dateStr;
+    });
+  }
+
+  function nextSlide() {
+    slides[current].classList.remove("active");
+    slides[current].classList.add("prev");
+    current = (current + 1) % slides.length;
+    slides[current].classList.remove("prev");
+    slides[current].classList.add("active");
+  }
+
+  setInterval(updateClocks, 1000);
+  setInterval(nextSlide, SLIDE_DURATION);
+  updateClocks();
+</script>
+</body>
+</html>
