@@ -80,21 +80,21 @@
 </style>
 </head>
 <body>
-  <div class="slide active" data-tz="America/Toronto" data-name="Toronto — Canada">
+  <div class="slide active" data-tz="America/Toronto">
     <h1>Visai Engineering</h1>
     <div class="city">🇨🇦 Toronto — Canada</div>
     <div class="clock" id="clock0">--:--:--</div>
     <div class="date" id="date0">Loading date...</div>
   </div>
 
-  <div class="slide" data-tz="America/New_York" data-name="New York — Eastern US">
+  <div class="slide" data-tz="America/New_York">
     <h1>Visai Engineering</h1>
     <div class="city">🇺🇸 New York — Eastern US</div>
     <div class="clock" id="clock1">--:--:--</div>
     <div class="date" id="date1">Loading date...</div>
   </div>
 
-  <div class="slide" data-tz="America/Chicago" data-name="Texas — South US">
+  <div class="slide" data-tz="America/Chicago">
     <h1>Visai Engineering</h1>
     <div class="city">🇺🇸 Texas — South US</div>
     <div class="clock" id="clock2">--:--:--</div>
@@ -104,7 +104,7 @@
   <footer>Auto-updating every second • Slides every 10 seconds</footer>
 
 <script>
-  const SLIDE_DURATION = 5000;
+  const SLIDE_DURATION = 10000; // ✅ 10 seconds per slide
   const slides = document.querySelectorAll(".slide");
   let current = 0;
 
