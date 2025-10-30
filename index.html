@@ -3,186 +3,182 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Visai Engineering — 3D World Clocks</title>
+<title>Visai Engineering</title>
 <style>
-  :root {
-    --bg1: #ef743f;
-    --bg2: #d33d3d;
-    --accent: #ffd86b;
-    --text: #ffffff;
-    --card-bg: rgba(0, 0, 0, 0.6);
-  }
-
   body {
     margin: 0;
     height: 100vh;
-    font-family: "Poppins", Arial, sans-serif;
-    color: var(--text);
-    background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    overflow: hidden;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
     perspective: 1200px;
-  }
-
-  body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: -1;
+    background: radial-gradient(circle at center, #060814 0%, #000 100%);
   }
 
   h1 {
-    font-size: 6vmin;
-    color: var(--accent);
-    text-shadow: 0 0 25px rgba(255, 230, 150, 0.7);
-    margin-bottom: 5vmin;
-    letter-spacing: 0.06em;
-    text-align: center;
-    animation: fadeInDown 1.2s ease;
+    font-size: 2.3rem;
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
   }
 
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* Neon Grid Floor */
+  .grid {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(#00ffff22 1px, transparent 1px),
+                linear-gradient(90deg, #00ffff22 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: rotateX(70deg) translateY(200px);
+    transform-origin: bottom;
+    animation: moveGrid 15s linear infinite;
   }
 
-  .clock-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 3vmin;
-    width: 90%;
-    max-width: 1200px;
-    perspective: 1000px;
+  @keyframes moveGrid {
+    from { background-position: 0 0, 0 0; }
+    to { background-position: 0 50px, 50px 0; }
+  }
+
+  .scene {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    transform-style: preserve-3d;
+    animation: rotateScene 18s linear infinite;
+  }
+
+  @keyframes rotateScene {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  /* 3D Neon Globe */
+  .globe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    border-radius: 50%;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Whole_world_-_land_and_oceans.jpg/800px-Whole_world_-_land_and_oceans.jpg') center/cover no-repeat;
+    box-shadow: 0 0 40px #00ffff88, inset 0 0 30px #00ffff55;
+    animation: globeSpin 12s linear infinite;
+  }
+
+  @keyframes globeSpin {
+    from { background-position: 0 0; }
+    to { background-position: -800px 0; }
   }
 
   .clock-card {
-    position: relative;
-    background: var(--card-bg);
-    padding: 3vmin 2vmin;
-    border-radius: 1.5vmin;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 160px;
+    padding: 15px 10px;
+    background: rgba(0, 255, 255, 0.08);
+    border: 1px solid #00ffff55;
+    border-radius: 15px;
+    backdrop-filter: blur(6px);
     text-align: center;
-    border: 1.5px solid rgba(255, 255, 255, 0.08);
-    overflow: hidden;
-    transform: rotateY(0deg) translateZ(0);
-    transition: all 0.6s ease;
-    animation: floaty 6s ease-in-out infinite;
-  }
-
-  @keyframes floaty {
-    0%, 100% { transform: translateY(0) rotateY(0deg); }
-    50% { transform: translateY(-10px) rotateY(2deg); }
+    color: #fff;
+    transform-style: preserve-3d;
+    box-shadow: 0 0 25px #00ffff33;
+    transition: all 0.5s ease;
   }
 
   .clock-card:hover {
-    transform: rotateY(15deg) scale(1.07) translateY(-8px);
-    border-color: var(--accent);
-    box-shadow: 0 20px 45px rgba(255, 215, 90, 0.4);
-  }
-
-  .clock-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 1.5vmin;
-    background: linear-gradient(45deg, rgba(255,216,107,0.3), rgba(255,255,255,0.05));
-    transform: translateZ(20px);
-    mix-blend-mode: overlay;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-
-  .clock-card:hover::before {
-    opacity: 1;
+    box-shadow: 0 0 25px #00ffffaa, 0 0 60px #00ffff55;
+    transform: scale(1.1) translateY(-8px);
   }
 
   .flag {
-    width: 55px;
-    height: 38px;
-    border-radius: 6px;
-    margin-bottom: 1vmin;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-    animation: floatyFlag 5s ease-in-out infinite;
-  }
-
-  @keyframes floatyFlag {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    width: 40px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    box-shadow: 0 0 10px #00ffff44;
   }
 
   .city {
-    font-size: 3vmin;
+    color: #00ffff;
     font-weight: 600;
-    margin-bottom: 1vmin;
-    letter-spacing: 0.05em;
-    color: var(--accent);
+    margin-bottom: 6px;
   }
 
   .clock {
-    font-size: 6vmin;
+    font-size: 1.3rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    text-shadow: 0 0 15px #00ffff;
   }
 
   .date {
-    font-size: 2vmin;
+    font-size: 0.8rem;
     opacity: 0.9;
-    margin-top: 1vmin;
   }
+
+  /* Orbit Positions */
+  .c1 { transform: rotateY(0deg) translateZ(260px) translateY(-80px); }
+  .c2 { transform: rotateY(90deg) translateZ(260px) translateY(60px); }
+  .c3 { transform: rotateY(180deg) translateZ(260px) translateY(-80px); }
+  .c4 { transform: rotateY(270deg) translateZ(260px) translateY(60px); }
 
   footer {
-    margin-top: 4vmin;
-    font-size: 1.8vmin;
-    opacity: 0.85;
-    letter-spacing: 0.05em;
-    animation: fadeInUp 2s ease;
+    margin-top: 40px;
+    color: #00ffffcc;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
   }
 
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* Glow Pulsing */
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px #00ffff33; }
+    50% { box-shadow: 0 0 40px #00ffff88; }
   }
 </style>
 </head>
 <body>
-  <h1>🌍 Visai Engineering — 3D World Clocks</h1>
+  <h1>⚡ Visai Engineering — Neon Grid 3D World Clocks</h1>
 
-  <div class="clock-grid">
-    <div class="clock-card" data-tz="Asia/Kolkata">
-      <img class="flag" src="https://flagcdn.com/w80/in.png" alt="India Flag">
+  <div class="scene">
+    <div class="globe"></div>
+
+    <div class="clock-card c1" data-tz="Asia/Kolkata">
+      <img class="flag" src="https://flagcdn.com/w40/in.png" alt="India">
       <div class="city">India 🇮🇳</div>
       <div class="clock" id="clock0">--:--:--</div>
       <div class="date" id="date0">Loading...</div>
     </div>
 
-    <div class="clock-card" data-tz="America/Edmonton">
-      <img class="flag" src="https://flagcdn.com/w80/ca.png" alt="Canada Flag">
-      <div class="city">Calgary — Canada 🇨🇦</div>
+    <div class="clock-card c2" data-tz="America/Edmonton">
+      <img class="flag" src="https://flagcdn.com/w40/ca.png" alt="Canada">
+      <div class="city">Calgary 🇨🇦</div>
       <div class="clock" id="clock1">--:--:--</div>
       <div class="date" id="date1">Loading...</div>
     </div>
 
-    <div class="clock-card" data-tz="America/Chicago">
-      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+    <div class="clock-card c3" data-tz="America/Chicago">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="US">
       <div class="city">Central US 🇺🇸</div>
       <div class="clock" id="clock2">--:--:--</div>
       <div class="date" id="date2">Loading...</div>
     </div>
 
-    <div class="clock-card" data-tz="America/New_York">
-      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+    <div class="clock-card c4" data-tz="America/New_York">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="US">
       <div class="city">Eastern US 🇺🇸</div>
       <div class="clock" id="clock3">--:--:--</div>
       <div class="date" id="date3">Loading...</div>
     </div>
   </div>
 
+  <div class="grid"></div>
   <footer>⏱ Auto-updating every second • Visai Engineering</footer>
 
 <script>
