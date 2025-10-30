@@ -3,18 +3,21 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Visai Engineering — Office Clocks</title>
+<title>Visai Engineering — World Office Clocks</title>
 <style>
   :root {
-    --navy1: #1e325c;
-    --navy2: #294a84;
+    --navy1: #ef743f;
+    --navy2: #d33d3d;
     --accent: #ead57b;
     --text: #ffffff;
   }
   html, body {
     margin: 0;
     height: 100%;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-family: "Poppins", Arial, sans-serif;
     color: var(--text);
     background: linear-gradient(120deg, var(--navy1), var(--navy2));
@@ -27,91 +30,95 @@
     100% { background-position: 0% 50%; }
   }
 
-  .slide {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateX(100%);
-    transition: all 1s ease-in-out;
-    text-align: center;
-  }
-  .slide.active {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .slide.prev {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
   h1 {
-    font-size: 3vmin;
-    margin: 0 0 2vmin;
+    font-size: 8vmin;
     color: var(--accent);
+    margin-bottom: 4vmin;
     letter-spacing: 0.08em;
   }
+
+  .clock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2vmin;
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+  }
+
+  .clock-card {
+    background: rgb(0, 0, 0);
+    padding: 2vmin;
+    border-radius: 1.5vmin;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.158);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+  }
+  .clock-card:hover {
+    transform: translateY(-5px);
+  }
+
   .city {
-    font-size: 2.5vmin;
-    margin-bottom: 1vmin;
+    font-size: 2.2vmin;
     font-weight: 600;
+    margin-bottom: 1vmin;
   }
   .clock {
-    font-size: 7vmin;
+    font-size: 6vmin;
     font-weight: 700;
     letter-spacing: 0.03em;
   }
   .date {
     font-size: 2vmin;
+    opacity: 0.85;
     margin-top: 1vmin;
-    opacity: 0.9;
   }
+
   footer {
-    position: absolute;
-    bottom: 2vmin;
-    width: 100%;
-    text-align: center;
+    margin-top: 3vmin;
     font-size: 1.8vmin;
     opacity: 0.8;
-    letter-spacing: 0.04em;
   }
 </style>
 </head>
 <body>
-  <div class="slide active" data-tz="America/Toronto">
-    <h1>Visai Engineering</h1>
-    <div class="city">🇨🇦 Toronto — Canada</div>
-    <div class="clock" id="clock0">--:--:--</div>
-    <div class="date" id="date0">Loading date...</div>
+  <h1>Visai Engineering — World Clocks</h1>
+
+  <div class="clock-grid">
+    <div class="clock-card" data-tz="Asia/Kolkata">
+      <div class="city">🇮🇳 India</div>
+      <div class="clock" id="clock0">--:--:--</div>
+      <div class="date" id="date0">Loading...</div>
+    </div>
+
+    <div class="clock-card" data-tz="America/Edmonton">
+      <div class="city">🇨🇦 Calgary — Canada</div>
+      <div class="clock" id="clock1">--:--:--</div>
+      <div class="date" id="date1">Loading...</div>
+    </div>
+
+    <div class="clock-card" data-tz="America/Chicago">
+      <div class="city">🇺🇸 Central US</div>
+      <div class="clock" id="clock2">--:--:--</div>
+      <div class="date" id="date2">Loading...</div>
+    </div>
+
+    <div class="clock-card" data-tz="America/New_York">
+      <div class="city">🇺🇸 Eastern US</div>
+      <div class="clock" id="clock3">--:--:--</div>
+      <div class="date" id="date3">Loading...</div>
+    </div>
   </div>
 
-  <div class="slide" data-tz="America/New_York">
-    <h1>Visai Engineering</h1>
-    <div class="city">🇺🇸 New York — Eastern US</div>
-    <div class="clock" id="clock1">--:--:--</div>
-    <div class="date" id="date1">Loading date...</div>
-  </div>
-
-  <div class="slide" data-tz="America/Chicago">
-    <h1>Visai Engineering</h1>
-    <div class="city">🇺🇸 Texas — South US</div>
-    <div class="clock" id="clock2">--:--:--</div>
-    <div class="date" id="date2">Loading date...</div>
-  </div>
-
-  <footer>Auto-updating every second • Slides every 10 seconds</footer>
+  <footer>Auto-updating every second • Visai Engineering</footer>
 
 <script>
-  const SLIDE_DURATION = 10000; // ✅ 10 seconds per slide
-  const slides = document.querySelectorAll(".slide");
-  let current = 0;
+  const cards = document.querySelectorAll(".clock-card");
 
   function updateClocks() {
-    slides.forEach((slide, i) => {
-      const tz = slide.getAttribute("data-tz");
-      const now = new Date();
+    const now = new Date();
+    cards.forEach((card, i) => {
+      const tz = card.getAttribute("data-tz");
       const timeStr = now.toLocaleTimeString("en-US", {
         timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
       });
@@ -123,16 +130,7 @@
     });
   }
 
-  function nextSlide() {
-    slides[current].classList.remove("active");
-    slides[current].classList.add("prev");
-    current = (current + 1) % slides.length;
-    slides[current].classList.remove("prev");
-    slides[current].classList.add("active");
-  }
-
   setInterval(updateClocks, 1000);
-  setInterval(nextSlide, SLIDE_DURATION);
   updateClocks();
 </script>
 </body>
