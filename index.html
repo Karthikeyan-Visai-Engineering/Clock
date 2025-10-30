@@ -3,114 +3,187 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Visai Engineering — World Office Clocks</title>
+<title>Visai Engineering — 3D World Clocks</title>
 <style>
   :root {
-    --navy1: #ef743f;
-    --navy2: #d33d3d;
-    --accent: #ead57b;
+    --bg1: #ef743f;
+    --bg2: #d33d3d;
+    --accent: #ffd86b;
     --text: #ffffff;
+    --card-bg: rgba(0, 0, 0, 0.6);
   }
-  html, body {
+
+  body {
     margin: 0;
-    height: 100%;
+    height: 100vh;
+    font-family: "Poppins", Arial, sans-serif;
+    color: var(--text);
+    background: url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: "Poppins", Arial, sans-serif;
-    color: var(--text);
-    background: linear-gradient(120deg, var(--navy1), var(--navy2));
-    background-size: 200% 200%;
-    animation: gradientMove 12s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    perspective: 1200px;
   }
-  @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: -1;
   }
 
   h1 {
-    font-size: 8vmin;
+    font-size: 6vmin;
     color: var(--accent);
-    margin-bottom: 4vmin;
-    letter-spacing: 0.08em;
+    text-shadow: 0 0 25px rgba(255, 230, 150, 0.7);
+    margin-bottom: 5vmin;
+    letter-spacing: 0.06em;
+    text-align: center;
+    animation: fadeInDown 1.2s ease;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .clock-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2vmin;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 3vmin;
     width: 90%;
-    max-width: 1000px;
-    text-align: center;
+    max-width: 1200px;
+    perspective: 1000px;
   }
 
   .clock-card {
-    background: rgb(0, 0, 0);
-    padding: 2vmin;
+    position: relative;
+    background: var(--card-bg);
+    padding: 3vmin 2vmin;
     border-radius: 1.5vmin;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.158);
-    backdrop-filter: blur(8px);
-    transition: transform 0.3s ease;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    transform: rotateY(0deg) translateZ(0);
+    transition: all 0.6s ease;
+    animation: floaty 6s ease-in-out infinite;
   }
+
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) rotateY(0deg); }
+    50% { transform: translateY(-10px) rotateY(2deg); }
+  }
+
   .clock-card:hover {
-    transform: translateY(-5px);
+    transform: rotateY(15deg) scale(1.07) translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 45px rgba(255, 215, 90, 0.4);
+  }
+
+  .clock-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5vmin;
+    background: linear-gradient(45deg, rgba(255,216,107,0.3), rgba(255,255,255,0.05));
+    transform: translateZ(20px);
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .clock-card:hover::before {
+    opacity: 1;
+  }
+
+  .flag {
+    width: 55px;
+    height: 38px;
+    border-radius: 6px;
+    margin-bottom: 1vmin;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    animation: floatyFlag 5s ease-in-out infinite;
+  }
+
+  @keyframes floatyFlag {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
   }
 
   .city {
-    font-size: 2.2vmin;
+    font-size: 3vmin;
     font-weight: 600;
     margin-bottom: 1vmin;
+    letter-spacing: 0.05em;
+    color: var(--accent);
   }
+
   .clock {
     font-size: 6vmin;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   }
+
   .date {
     font-size: 2vmin;
-    opacity: 0.85;
+    opacity: 0.9;
     margin-top: 1vmin;
   }
 
   footer {
-    margin-top: 3vmin;
+    margin-top: 4vmin;
     font-size: 1.8vmin;
-    opacity: 0.8;
+    opacity: 0.85;
+    letter-spacing: 0.05em;
+    animation: fadeInUp 2s ease;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
-  <h1>Visai Engineering — World Clocks</h1>
+  <h1>🌍 Visai Engineering — 3D World Clocks</h1>
 
   <div class="clock-grid">
     <div class="clock-card" data-tz="Asia/Kolkata">
-      <div class="city">🇮🇳 India</div>
+      <img class="flag" src="https://flagcdn.com/w80/in.png" alt="India Flag">
+      <div class="city">India 🇮🇳</div>
       <div class="clock" id="clock0">--:--:--</div>
       <div class="date" id="date0">Loading...</div>
     </div>
 
     <div class="clock-card" data-tz="America/Edmonton">
-      <div class="city">🇨🇦 Calgary — Canada</div>
+      <img class="flag" src="https://flagcdn.com/w80/ca.png" alt="Canada Flag">
+      <div class="city">Calgary — Canada 🇨🇦</div>
       <div class="clock" id="clock1">--:--:--</div>
       <div class="date" id="date1">Loading...</div>
     </div>
 
     <div class="clock-card" data-tz="America/Chicago">
-      <div class="city">🇺🇸 Central US</div>
+      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+      <div class="city">Central US 🇺🇸</div>
       <div class="clock" id="clock2">--:--:--</div>
       <div class="date" id="date2">Loading...</div>
     </div>
 
     <div class="clock-card" data-tz="America/New_York">
-      <div class="city">🇺🇸 Eastern US</div>
+      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+      <div class="city">Eastern US 🇺🇸</div>
       <div class="clock" id="clock3">--:--:--</div>
       <div class="date" id="date3">Loading...</div>
     </div>
   </div>
 
-  <footer>Auto-updating every second • Visai Engineering</footer>
+  <footer>⏱ Auto-updating every second • Visai Engineering</footer>
 
 <script>
   const cards = document.querySelectorAll(".clock-card");
@@ -120,10 +193,18 @@
     cards.forEach((card, i) => {
       const tz = card.getAttribute("data-tz");
       const timeStr = now.toLocaleTimeString("en-US", {
-        timeZone: tz, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
+        timeZone: tz,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
       });
       const dateStr = now.toLocaleDateString("en-US", {
-        timeZone: tz, weekday: "short", month: "short", day: "numeric", year: "numeric"
+        timeZone: tz,
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric"
       });
       document.getElementById("clock" + i).textContent = timeStr;
       document.getElementById("date" + i).textContent = dateStr;
