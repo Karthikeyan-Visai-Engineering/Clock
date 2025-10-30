@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Visai Engineering — 3D Digital World Clocks (TV Optimized)</title>
+<title>Visai Engineering — TV Perfect Digital World Clocks</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
@@ -30,7 +30,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.35);
     z-index: -1;
   }
 
@@ -50,7 +50,7 @@
 
   .clock-grid {
     display: grid;
-    grid-template-columns: repeat(2, 380px);
+    grid-template-columns: repeat(2, 420px);
     gap: 5vmin;
     justify-content: center;
     align-items: center;
@@ -58,27 +58,20 @@
 
   .clock-card {
     position: relative;
-    border-radius: 1.5vmin;
-    padding: 3vmin 2vmin;
+    border-radius: 2vmin;
+    padding: 4vmin 3vmin;
     text-align: center;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+    overflow: hidden;
     transform-style: preserve-3d;
     transition: all 0.6s ease;
     animation: floaty 6s ease-in-out infinite;
-    overflow: hidden;
+    background: rgba(255,255,255,0.7);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
   }
 
   @keyframes floaty {
     0%,100% { transform: rotateY(0deg) translateY(0); }
-    50% { transform: rotateY(6deg) translateY(-12px); }
-  }
-
-  .clock-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.7);
-    z-index: 0;
+    50% { transform: rotateY(6deg) translateY(-10px); }
   }
 
   .clock-card:hover {
@@ -86,48 +79,36 @@
     box-shadow: 0 25px 60px rgba(255, 215, 90, 0.6);
   }
 
-  /* TV-safe flag color gradients */
-  .india { background: linear-gradient(145deg, #ff8c00, #ffffff 40%, #138808); }
-  .canada { background: linear-gradient(145deg, #b82020, #ffffff 40%, #b82020); }
-  .us-central { background: linear-gradient(145deg, #3c3b6e, #ffffff 40%, #b22234); }
-  .us-eastern { background: linear-gradient(145deg, #b22234, #ffffff 40%, #3c3b6e); }
-
   .flag {
-    width: 85px;
-    height: 55px;
+    width: 110px;
+    height: 75px;
     border-radius: 8px;
     margin-bottom: 1.5vmin;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
-    z-index: 1;
-    position: relative;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    border: 2px solid rgba(0,0,0,0.3);
   }
 
   .city {
     font-size: 3.5vmin;
     font-weight: 700;
-    color: var(--text);
-    z-index: 1;
+    color: #000;
     position: relative;
-    text-shadow: 1px 1px 2px #fff;
+    text-shadow: 0 0 4px rgba(255,255,255,0.9);
   }
 
   .clock {
     font-size: 6.5vmin;
     font-weight: 800;
-    color: var(--text);
-    z-index: 1;
-    position: relative;
+    color: #000;
     letter-spacing: 0.05em;
-    text-shadow: 1px 1px 3px #fff;
+    text-shadow: 0 0 8px rgba(255,255,255,0.8);
   }
 
   .date {
     font-size: 2.5vmin;
     opacity: 0.9;
-    color: var(--text);
-    z-index: 1;
-    position: relative;
-    text-shadow: 1px 1px 2px #fff;
+    color: #000;
+    text-shadow: 0 0 4px rgba(255,255,255,0.8);
   }
 
   footer {
@@ -148,29 +129,29 @@
   <h1>🌍 Visai Engineering — Digital World Clocks</h1>
 
   <div class="clock-grid">
-    <div class="clock-card india" data-tz="Asia/Kolkata">
-      <img class="flag" src="https://flagcdn.com/w80/in.png" alt="India Flag">
+    <div class="clock-card" data-tz="Asia/Kolkata">
+      <img class="flag" src="https://flagcdn.com/w320/in.png" alt="India Flag">
       <div class="city">India 🇮🇳</div>
       <div class="clock" id="clock0">--:--:--</div>
       <div class="date" id="date0">Loading...</div>
     </div>
 
-    <div class="clock-card canada" data-tz="America/Edmonton">
-      <img class="flag" src="https://flagcdn.com/w80/ca.png" alt="Canada Flag">
+    <div class="clock-card" data-tz="America/Edmonton">
+      <img class="flag" src="https://flagcdn.com/w320/ca.png" alt="Canada Flag">
       <div class="city">Calgary — Canada 🇨🇦</div>
       <div class="clock" id="clock1">--:--:--</div>
       <div class="date" id="date1">Loading...</div>
     </div>
 
-    <div class="clock-card us-central" data-tz="America/Chicago">
-      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+    <div class="clock-card" data-tz="America/Chicago">
+      <img class="flag" src="https://flagcdn.com/w320/us.png" alt="US Flag">
       <div class="city">Central US 🇺🇸</div>
       <div class="clock" id="clock2">--:--:--</div>
       <div class="date" id="date2">Loading...</div>
     </div>
 
-    <div class="clock-card us-eastern" data-tz="America/New_York">
-      <img class="flag" src="https://flagcdn.com/w80/us.png" alt="US Flag">
+    <div class="clock-card" data-tz="America/New_York">
+      <img class="flag" src="https://flagcdn.com/w320/us.png" alt="US Flag">
       <div class="city">Eastern US 🇺🇸</div>
       <div class="clock" id="clock3">--:--:--</div>
       <div class="date" id="date3">Loading...</div>
