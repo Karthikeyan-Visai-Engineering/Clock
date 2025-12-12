@@ -15,7 +15,7 @@
 
     body {
       margin: 0;
-      height: 100vh;
+      height: 150vh;
       font-family: "Orbitron", sans-serif;
       color: var(--text);
       background: url('/assets/earth.jpg') center/cover no-repeat fixed;
@@ -52,10 +52,11 @@
     /* ---- 3 columns x 2 rows grid ---- */
     .clock-grid {
       display: grid;
-      grid-template-columns: repeat(3, 420px);
+      grid-template-columns: repeat(3, 340px); /* Slightly reduced width to fit TV */
       gap: 5vmin;
       justify-content: center;
       align-items: center;
+      max-width: 100vw; /* Ensure it doesn't overflow horizontally */
     }
 
     /* ---- 3D Card ---- */
@@ -81,8 +82,8 @@
     }
 
     .flag {
-      width: 110px;
-      height: 75px;
+      width: 100px;
+      height: 65px;
       border-radius: 10px;
       margin-bottom: 1.5vmin;
       border: 2px solid rgba(0,0,0,0.35);
@@ -91,7 +92,7 @@
     }
 
     .city {
-      font-size: 3.2vmin;
+      font-size: 3vmin;
       font-weight: 700;
       color: #000;
       text-shadow: 0 0 4px rgba(255,255,255,0.8);
@@ -99,14 +100,14 @@
     }
 
     .clock {
-      font-size: 6.2vmin;
+      font-size: 5.5vmin;
       font-weight: 800;
       text-shadow: 0 0 10px rgba(255,255,255,0.9);
       margin-bottom: 1vmin;
     }
 
     .date {
-      font-size: 2.3vmin;
+      font-size: 2vmin;
       color: #000;
       opacity: 0.9;
       text-shadow: 0 0 5px rgba(255,255,255,0.7);
@@ -124,9 +125,25 @@
       from { opacity: 0; transform: translateY(40px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* Responsive adjustments for TV screens */
+    @media (max-width: 1920px) {
+      .clock-grid {
+        grid-template-columns: repeat(3, 300px);
+      }
+      .clock-card {
+        padding: 3vmin;
+      }
+      .flag {
+        width: 90px;
+        height: 60px;
+      }
+      .city { font-size: 2.6vmin; }
+      .clock { font-size: 4.8vmin; }
+      .date { font-size: 1.8vmin; }
+    }
   </style>
 </head>
-
 
 <body>
 
@@ -179,7 +196,6 @@
   </div>
 
   <footer>⏱ Real-time Auto-updating • Visai Engineering</footer>
-
 
   <script>
     const cards = document.querySelectorAll(".clock-card");
