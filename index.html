@@ -5,100 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Visai Engineering — World Clocks</title>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+  <<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-    :root {
-      --accent: #ffd86b;
-      --text: #000;
-    }
+  :root {
+    --accent: #ffd86b;
+    --text: #000;
+  }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: "Orbitron", sans-serif;
-      color: var(--text);
-      background: url('/assets/earth.jpg') center/cover no-repeat;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: "Orbitron", sans-serif;
+    color: var(--text);
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.35);
-      z-index: -1;
-    }
+  h1 {
+    font-size: 4vmin;
+    color: var(--accent);
+    margin-bottom: 4vmin;
+    text-align: center;
+  }
 
-    h1 {
-      font-size: 4vmin;
-      color: var(--accent);
-      margin-bottom: 3vmin;
-      text-align: center;
-    }
+  /* 3×2 Grid with proper spacing for TV */
+  .clock-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5vmin 6vmin; /* vertical & horizontal spacing */
+    width: 90vw;
+    max-width: 1600px;
+    justify-items: center;  /* PERFECT CENTER ALIGNMENT */
+  }
 
-    /* Updated GRID to 3×2 layout */
-    .clock-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 350px);
-  gap: 5.5vmin;
-  justify-content: center;
-}
+  .clock-card {
+    width: 100%;
+    max-width: 380px; /* same size on all TV screens */
+    height: 270px;
+    padding: 2vmin;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 2vmin;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.5);
+    animation: floaty 6s ease-in-out infinite;
+    transition: 0.5s;
+  }
 
-.clock-card {
-  width: 350px;
-  height: 260px;     /* FIXED HEIGHT — SAME FOR ALL */
-  background: rgba(255, 255, 255, 0.75);
-  padding: 2vmin;
-  border-radius: 2vmin;
-  text-align: center;
-  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: 0.4s;
-}
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0) }
+    50% { transform: translateY(-10px) }
+  }
 
-.clock-card:hover {
-  transform: scale(1.06);
-  box-shadow: 0 25px 60px rgba(255, 220, 120, 0.6);
-}
+  .clock-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 55px rgba(255, 220, 120, 0.6);
+  }
 
-.flag {
-  width: 80px;
-  height: 55px;
-  border-radius: 8px;
-  margin: 0 auto 0.5vmin auto;
-  border: 2px solid rgba(0, 0, 0, 0.3);
-}
+  .flag {
+    width: 95px;
+    height: 65px;
+    border-radius: 10px;
+    margin-bottom: 1vmin;
+    border: 2px solid #0003;
+    background: white; /* Fix TV color issue */
+  }
 
-.city {
-  font-size: 2.2vmin;
-  font-weight: 700;
-  margin-bottom: 0.5vmin;
-}
+  .city {
+    font-size: 2.2vmin;
+    font-weight: 700;
+    margin-bottom: 0.6vmin;
+  }
 
-.clock {
-  font-size: 4.8vmin;
-  font-weight: 800;
-  margin-bottom: 0.8vmin;
-}
+  .clock {
+    font-size: 4.8vmin;
+    font-weight: 800;
+    margin-bottom: 1vmin;
+  }
 
-.date {
-  font-size: 1.8vmin;
-  opacity: 0.9;
-}
-    footer {
-      margin-top: 4vmin;
-      color: #fff;
-      opacity: 0.9;
-      font-size: 2vmin;
-    }
-  </style>
+  .date {
+    font-size: 1.7vmin;
+    opacity: 0.85;
+  }
+
+  footer {
+    margin-top: 4vmin;
+    color: #fff;
+    opacity: 0.85;
+    font-size: 2vmin;
+  }
+</style>
+
 </head>
 
 <body>
@@ -107,7 +111,6 @@
 
   <div class="clock-grid">
 
-    <!-- India -->
     <div class="clock-card" data-tz="Asia/Kolkata">
       <img class="flag" src="https://flagcdn.com/w320/in.png">
       <div class="city">India 🇮🇳</div>
@@ -115,7 +118,6 @@
       <div class="date" id="date0">Loading...</div>
     </div>
 
-    <!-- Canada Calgary -->
     <div class="clock-card" data-tz="America/Edmonton">
       <img class="flag" src="https://flagcdn.com/w320/ca.png">
       <div class="city">Calgary — Canada 🇨🇦</div>
@@ -123,7 +125,6 @@
       <div class="date" id="date1">Loading...</div>
     </div>
 
-    <!-- Central US -->
     <div class="clock-card" data-tz="America/Chicago">
       <img class="flag" src="https://flagcdn.com/w320/us.png">
       <div class="city">Central US 🇺🇸</div>
@@ -131,7 +132,6 @@
       <div class="date" id="date2">Loading...</div>
     </div>
 
-    <!-- Eastern US -->
     <div class="clock-card" data-tz="America/New_York">
       <img class="flag" src="https://flagcdn.com/w320/us.png">
       <div class="city">Eastern US 🇺🇸</div>
@@ -139,24 +139,23 @@
       <div class="date" id="date3">Loading...</div>
     </div>
 
-    <!-- UK London (NEW)  -->
     <div class="clock-card" data-tz="Europe/London">
       <img class="flag" src="https://flagcdn.com/w320/gb.png">
       <div class="city">United Kingdom 🇬🇧</div>
       <div class="clock" id="clock4">--:--:--</div>
       <div class="date" id="date4">Loading...</div>
     </div>
-    
-     <!-- Auckland  -->
-    <!-- Auckland — New Zealand -->
-<div class="clock-card" data-tz="Pacific/Auckland">
-  <img class="flag" src="https://flagcdn.com/w320/nz.png">
-  <div class="city">Auckland — New Zealand 🇳🇿</div>
-  <div class="clock" id="clock5">--:--:--</div>
-  <div class="date" id="date5">Loading...</div>
-</div>
 
-  
+    <div class="clock-card" data-tz="Pacific/Auckland">
+      <img class="flag" src="https://flagcdn.com/w320/nz.png">
+      <div class="city">Auckland — New Zealand 🇳🇿</div>
+      <div class="clock" id="clock5">--:--:--</div>
+      <div class="date" id="date5">Loading...</div>
+    </div>
+
+  </div>
+
+  <footer>⏱ Real-time Auto-updating • Visai Engineering</footer>
 
   <script>
     const cards = document.querySelectorAll(".clock-card");
